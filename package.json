@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "test": "yarn ts-mocha -p tsconfig.json src/**/*.spec.ts"
+  },
+  "devDependencies": {
+    "@types/expect": "^24.3.0",
+    "@types/mocha": "^10.0.6",
+    "mocha": "^10.3.0",
+    "ts-mocha": "^10.0.0",
+    "typescript": "^5.4.2"
+  },
+  "dependencies": {
+    "sqlite3": "^5.1.7",
+    "typeorm": "^0.3.20"
+  }
+}
