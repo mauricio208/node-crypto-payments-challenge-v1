@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, Timestamp, Unique } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, Timestamp, Unique, ManyToOne } from "typeorm"
+import { Account } from "./account.model"
 
 @Unique(["txid"])
 @Entity()
@@ -53,4 +54,7 @@ export class Transaction {
 
     @Column()
     vout: number
+
+    @ManyToOne(() => Account, (account) => account.transactions)
+    accountfk: Account
 }
