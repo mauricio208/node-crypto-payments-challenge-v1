@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "mariadb": "^3.2.3",
+    "mysql": "^2.18.1",
     "sqlite3": "^5.1.7",
     "typeorm": "^0.3.20"
   },
