@@ -10,6 +10,7 @@
     "typescript": "^5.4.2"
   },
   "dependencies": {
+    "mariadb": "^3.2.3",
     "sqlite3": "^5.1.7",
     "typeorm": "^0.3.20"
   },

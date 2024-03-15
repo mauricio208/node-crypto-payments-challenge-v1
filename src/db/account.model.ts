@@ -12,6 +12,6 @@ export class Account {
     @Column()
     balance: number
 
-    @OneToMany(() => Transaction, (transaction) => transaction.accountfk)
+    @OneToMany(() => Transaction, (transaction: { accountfk: any }) => transaction.accountfk)
     transactions: Transaction[]
 }

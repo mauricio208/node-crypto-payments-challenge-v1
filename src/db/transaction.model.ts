@@ -44,10 +44,10 @@ export class Transaction {
     label: string
     
     @Column()
-    time: Timestamp
+    time: number
     
     @Column()
-    timereceived: Timestamp
+    timereceived: number
     
     @Column({name: "txid"})
     txid: string

@@ -9,7 +9,7 @@ RUN yarn install --frozen-lockfile
 
 COPY . .
 
-RUN yarn build
+RUN yarn tsc
 
 FROM node:slim
 
@@ -27,4 +27,6 @@ RUN yarn install --production --frozen-lockfile
 COPY --from=builder /usr/src/app/dist ./dist
 
 EXPOSE 8080
-CMD [ "node", "dist/index.js" ]
+# RUN node dist/src/main.js
+CMD [ "node", "dist/src/main.js"]
+# CMD [ "tail", "-f", "/dev/null"]

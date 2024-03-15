@@ -1,0 +1,36 @@
+version: '3.4'
+
+services:
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+    - "3306:3306"
+  # db:
+  #   image: keinos/sqlite3
+  #   working_dir: /workspace
+  #   volumes:
+  #     - ./db-data:/workspace
+  #   # command: sh -c "touch /tmp/db.sqlite && sqlite3 /tmp/db.sqlite && tail -f /dev/null"
+  #   command: sh -c "sqlite3 /workspace/db.sqlite && pwd && tail -f /dev/null"
+  #   tty: true
+
+  challengeapp:
+    image: challengeapp
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    # volumes:
+    #   - db-data:"$(pwd)/db-data"
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3000:3000
+
+# volumes:
+#   db-data:

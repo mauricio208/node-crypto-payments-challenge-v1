@@ -1,6 +1,6 @@
 import { strict as assert } from 'assert'
 import { Transaction, ApiResponse } from "./api.entities"
-import APImock = require("./api")
+import APImock from "./api"
 
 describe('APImock test', () => {
     it("should return more than 0 transactions", () => {
