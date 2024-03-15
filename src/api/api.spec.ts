@@ -1,5 +1,5 @@
 import { strict as assert } from 'assert'
-import { Transaction, ApiResponse } from "./api.entities"
+import { ITransaction, ApiResponse } from "./api.entities"
 import { APImock } from "./api"
 
 describe('APImock test', () => {

@@ -3,15 +3,12 @@ import { Account } from "./account.model"
 
 @Unique(["txid"])
 @Entity()
-export class Transaction {
+export class Deposit {
     @PrimaryGeneratedColumn()
-    id: number
+    id?: number
 
     @Column()
     address: string
-
-    @Column()
-    balance: number
 
     @Column()
     account: string
@@ -26,7 +23,7 @@ export class Transaction {
     blockhash: string
     
     @Column()
-    blockindex: string
+    blockindex: number
     
     @Column()
     blocktime: number
@@ -56,5 +53,5 @@ export class Transaction {
     vout: number
 
     @ManyToOne(() => Account, (account) => account.transactions)
-    accountfk: Account
+    accountfk?: Account
 }

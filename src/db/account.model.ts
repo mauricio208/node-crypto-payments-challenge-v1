@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm"
-import { Transaction } from "./transaction.model"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm"
+import { Deposit } from "./deposits.model"
+import { User } from "./user.model"
 
 @Entity()
 export class Account {
@@ -12,6 +13,10 @@ export class Account {
     @Column()
     balance: number
 
-    @OneToMany(() => Transaction, (transaction: { accountfk: any }) => transaction.accountfk)
-    transactions: Transaction[]
+    @ManyToOne(() => User, (user) => user.accounts)
+    user: User
+
+    @OneToMany(() => Deposit, (deposit: { accountfk: any }) => deposit.accountfk)
+    transactions: Deposit[]
+
 }

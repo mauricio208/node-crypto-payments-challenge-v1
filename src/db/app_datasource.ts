@@ -1,6 +1,6 @@
 import { DataSource } from "typeorm"
 import { Account } from "./account.model"
-import { Transaction } from "./transaction.model"
+import { Deposit } from "./deposits.model"
 
 const AppDataSource = new DataSource({
     type: "mariadb",
@@ -10,7 +10,7 @@ const AppDataSource = new DataSource({
     password: "password",
     database: "mydatabase",
     synchronize: true,
-    entities: [Account, Transaction]
+    entities: [Account, Deposit]
 })
 
 export { AppDataSource }

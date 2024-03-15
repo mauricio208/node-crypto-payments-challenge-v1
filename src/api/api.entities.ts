@@ -18,7 +18,7 @@
 //     "walletconflicts": []
 // }
 
-interface Transaction {
+interface ITransaction {
     account: string
     address: string
     amount: number
@@ -40,11 +40,11 @@ interface Transaction {
 interface ApiResponse {
     lastblock: string
     removed: any[]
-    transactions: Transaction[]
+    transactions: ITransaction[]
 }
 
 export {
-    Transaction,
+    ITransaction,
     ApiResponse
 }
 
