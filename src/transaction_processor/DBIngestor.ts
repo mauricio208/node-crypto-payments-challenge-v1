@@ -3,9 +3,9 @@ import { ITransaction } from "../api/api.entities";
 import { AppDataSource } from "../db/app_datasource";
 import { Deposit } from "../db/deposits.model";
 import { Account } from "../db/account.model";
+import { User } from "../db/user.model";
 
-
-class DBIngestor{
+export class DBIngestor{
     private datasource: DataSource
     private constructor(initializedDatasource: DataSource){
         this.datasource = initializedDatasource
@@ -14,6 +14,22 @@ class DBIngestor{
     public static async init(){
         const datasource = await AppDataSource.initialize()
         return new DBIngestor(datasource)
+    }
+
+    async addUser(userData: { name: string }){
+        const userRepository =  this.datasource.getRepository(User)
+        const newUser = userRepository.create(userData)
+        return await userRepository.save(newUser)
+    }
+
+    async addAccount(user: User, address: string){
+        const accountRepository = this.datasource.getRepository(Account)
+        const newAccount = accountRepository.create({
+            address,
+            balance: 0,
+            user
+        })
+        return await accountRepository.save(newAccount)   
     }
 
     async processConfirmed(transaction: ITransaction){
