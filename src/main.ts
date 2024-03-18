@@ -1,7 +1,27 @@
 import { APImock } from "./api/api";
+import { AppDataSource } from "./db/app_datasource";
+import DepositKPIs from "./kpis_generator/deposits_kpis";
 import { DBIngestor } from "./transaction_processor/DBIngestor";
 
+async function dbInit(maxRetry= 5, currentRetry = 0){
+    try {
+        await new Promise(resolve => setTimeout(resolve, 10000));
+        await AppDataSource.initialize()
+    } catch (error: any) {
+        console.error("Error during Data Source initialization")
+        if (error?.code == 'ECONNREFUSED') {
+            if(maxRetry == currentRetry)  throw error
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            dbInit(maxRetry, currentRetry+1)
+        }else{
+            throw error
+        }
+    }
+}
+
 (async function(){
+
+    await dbInit(10)
     const knownUsers = [
         ["Wesley Crusher", "mvd6qFeVkqH6MNAS2Y2cLifbdaX5XUkbZJ"],
         ["Leonard McCoy", "mmFFG4jqAtw9MoCC88hw5FNfreQWuEHADp"],
@@ -11,7 +31,8 @@ import { DBIngestor } from "./transaction_processor/DBIngestor";
         ["James T. Kirk", "miTHhiX3iFhVnAEecLjybxvV5g8mKYTtnM"],
         ["Spock", "mvcyJMiAcSXKAEsQxbW9TYZ369rsMG6rVV"],
     ]
-    const dbingest = await DBIngestor.init()
+
+    const dbingest = new DBIngestor()
     for (const userData of knownUsers) {
         const user = await dbingest.addUser({
             name: userData[0]
@@ -24,5 +45,7 @@ import { DBIngestor } from "./transaction_processor/DBIngestor";
         const apiResponse = api.listsinceblock(apiCallId)
         await dbingest.checkTransactions(apiResponse.transactions)
     }
-    
+
+    const kpis = await DepositKPIs.init()
+    console.log(await kpis.generate(knownUsers))
 })();

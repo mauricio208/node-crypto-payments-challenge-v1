@@ -7,14 +7,14 @@ import { User } from "../db/user.model";
 
 export class DBIngestor{
     private datasource: DataSource
-    private constructor(initializedDatasource: DataSource){
-        this.datasource = initializedDatasource
+    constructor(){//initializedDatasource: DataSource){
+        this.datasource = AppDataSource//initializedDatasource
     }
 
-    public static async init(){
-        const datasource = await AppDataSource.initialize()
-        return new DBIngestor(datasource)
-    }
+    // public static async init(){
+    //     const datasource = await AppDataSource.initialize()
+    //     return new DBIngestor(datasource)
+    // }
 
     async addUser(userData: { name: string }){
         const userRepository =  this.datasource.getRepository(User)
@@ -39,7 +39,7 @@ export class DBIngestor{
 
     async processTransaction(transaction: ITransaction){
         if (await this.transactionAlreadyProcessed(transaction.txid)) return
-        if (transaction.confirmations > 6) {
+        if (transaction.confirmations >= 6) {
             const accountRepository = this.datasource.getRepository(Account)
             let account = await accountRepository.findOneBy({address:transaction.address})
             if(!account){

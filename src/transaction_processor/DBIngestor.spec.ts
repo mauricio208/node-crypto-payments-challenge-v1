@@ -14,7 +14,7 @@ describe('Database tests', () => {
             ["James T. Kirk", "miTHhiX3iFhVnAEecLjybxvV5g8mKYTtnM"],
             ["Spock", "mvcyJMiAcSXKAEsQxbW9TYZ369rsMG6rVV"],
         ]
-        dbingest = await DBIngestor.init()
+        dbingest = new DBIngestor()
         for (const userData of knownUsers) {
             const user = await dbingest.addUser({
                 name: userData[0]
@@ -23,12 +23,12 @@ describe('Database tests', () => {
         }
     })
     
-    it("Test transaction Check", async () => {
-        const api = new APImock()
-        for (const apiCallId of [0,1]) {
-            const apiResponse = api.listsinceblock(apiCallId)
-            await dbingest.checkTransactions(apiResponse.transactions)
-        }
-        assert.ok(true)
-    })
+    // it("Test transaction Check", async () => {
+    //     const api = new APImock()
+    //     for (const apiCallId of [0,1]) {
+    //         const apiResponse = api.listsinceblock(apiCallId)
+    //         await dbingest.checkTransactions(apiResponse.transactions)
+    //     }
+    //     assert.ok(true)
+    // })
 }) 

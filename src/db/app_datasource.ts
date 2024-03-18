@@ -5,7 +5,7 @@ import { User } from "./user.model"
 
 const AppDataSource = new DataSource({
     type: "mariadb",
-    host: "127.0.0.1", //db,
+    host: "db", // "127.0.0.1", 
     port: 3306,
     username: "user",
     password: "password",

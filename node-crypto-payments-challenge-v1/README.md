@@ -53,3 +53,9 @@ The command `docker-compose up` **MUST**:
 ## Submitting your results
 
 Compress your source code as zip archive and send us a link where we can download it. Sharing via Dropbox or Google Drive has worked well in the past. Make sure the Dockerfile is on the top level.
+
+---------------------------------------------------------------
+
+Developer 
+
+- Does a same transaction appears in both json files?, in that case check txid

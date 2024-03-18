@@ -11,17 +11,11 @@ services:
       MYSQL_PASSWORD: password
     ports:
     - "3306:3306"
-  # db:
-  #   image: keinos/sqlite3
-  #   working_dir: /workspace
-  #   volumes:
-  #     - ./db-data:/workspace
-  #   # command: sh -c "touch /tmp/db.sqlite && sqlite3 /tmp/db.sqlite && tail -f /dev/null"
-  #   command: sh -c "sqlite3 /workspace/db.sqlite && pwd && tail -f /dev/null"
-  #   tty: true
 
   challengeapp:
     image: challengeapp
+    depends_on: 
+      - db
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -31,6 +25,3 @@ services:
       NODE_ENV: production
     ports:
       - 3000:3000
-
-# volumes:
-#   db-data:
