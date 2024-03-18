@@ -32,7 +32,13 @@ export class DBIngestor{
         return await accountRepository.save(newAccount)   
     }
 
-    async processConfirmed(transaction: ITransaction){
+    async transactionAlreadyProcessed(txId: string): Promise<Boolean>{
+        const depositRepository = await this.datasource.getRepository(Deposit)
+        return (await depositRepository.exists({ where:{ txid: txId}}))
+    }
+
+    async processTransaction(transaction: ITransaction){
+        if (await this.transactionAlreadyProcessed(transaction.txid)) return
         if (transaction.confirmations > 6) {
             const accountRepository = this.datasource.getRepository(Account)
             let account = await accountRepository.findOneBy({address:transaction.address})
@@ -43,16 +49,18 @@ export class DBIngestor{
                 })
                 account = await accountRepository.save(newAccount)            
             }
-            const newDeposit = await this.datasource.getRepository(Deposit).create(transaction as Deposit)
-            const deposit = await this.datasource.getRepository(Deposit).save(newDeposit)
+            const depositRepository = await this.datasource.getRepository(Deposit)
+            const newDeposit = depositRepository.create({
+                ...transaction, 
+                accountfk: account })
+            const deposit = await depositRepository.save(newDeposit)
             await accountRepository.update(account.id, {balance: account.balance + deposit.amount})
         }
     }
 
-    checkTransactions(transactions: ITransaction[]) {
+    async checkTransactions(transactions: ITransaction[]) {
         for (const transaction of transactions) {
-               
-            
+            await this.processTransaction(transaction)
         }
     }
 }

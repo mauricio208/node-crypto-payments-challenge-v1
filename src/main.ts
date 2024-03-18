@@ -1,5 +1,4 @@
-import { Account } from "./db/account.model";
-import { AppDataSource} from "./db/app_datasource"
+import { APImock } from "./api/api";
 import { DBIngestor } from "./transaction_processor/DBIngestor";
 
 (async function(){
@@ -19,4 +18,11 @@ import { DBIngestor } from "./transaction_processor/DBIngestor";
         })
         await dbingest.addAccount(user, userData[1])
     }
+
+    const api = new APImock()
+    for (const apiCallId of [0,1]) {
+        const apiResponse = api.listsinceblock(apiCallId)
+        await dbingest.checkTransactions(apiResponse.transactions)
+    }
+    
 })();

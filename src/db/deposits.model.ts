@@ -25,7 +25,7 @@ export class Deposit {
     @Column()
     blockindex: number
     
-    @Column()
+    @Column({type: "bigint"})
     blocktime: number
     
     @Column()
@@ -40,10 +40,10 @@ export class Deposit {
     @Column()
     label: string
     
-    @Column()
+    @Column({type: "bigint"})
     time: number
     
-    @Column()
+    @Column({type: "bigint"})
     timereceived: number
     
     @Column({name: "txid"})
